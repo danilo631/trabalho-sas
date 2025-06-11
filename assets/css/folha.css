@@ -1,0 +1,128 @@
+:root {
+    --azul-principal: #1565C0;
+    --azul-escuro: #0d47a1;
+    --azul-claro: #e3f2fd;
+    --branco: #ffffff;
+    --cinza-claro: #f4f6f8;
+    --cinza-borda: #dcdcdc;
+    --erro: #d32f2f;
+    --fonte-principal: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    font-family: var(--fonte-principal);
+    background-color: var(--cinza-claro);
+    color: #333;
+    margin: 0;
+    padding: 30px;
+}
+
+h1, h2 {
+    color: var(--azul-principal);
+    margin-bottom: 20px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 30px;
+    display: flex;
+    gap: 15px;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: var(--azul-principal);
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: var(--azul-escuro);
+}
+
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    background-color: var(--branco);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+thead {
+    background-color: var(--azul-principal);
+    color: var(--branco);
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+
+tbody tr:hover {
+    background-color: var(--azul-claro);
+}
+
+form {
+    margin-top: 40px;
+    background-color: var(--branco);
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    max-width: 600px;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+    color: var(--azul-principal);
+}
+
+input, select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid var(--cinza-borda);
+    border-radius: 4px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: var(--azul-principal);
+    color: var(--branco);
+    padding: 10px 20px;
+    border: none;
+    margin-top: 20px;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--azul-escuro);
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+
+    table, form {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    nav ul {
+        flex-direction: column;
+    }
+}

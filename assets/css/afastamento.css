@@ -1,0 +1,235 @@
+:root {
+    --azul-principal: #004080;
+    --azul-secundario: #0074D9;
+    --azul-claro: #E6F2FF;
+    --cinza: #f4f4f4;
+    --branco: #ffffff;
+    --preto: #222;
+    --borda: #dcdcdc;
+    --sombra: rgba(0, 0, 0, 0.1);
+    --fonte: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Fonte base e background */
+body {
+    font-family: var(--fonte);
+    color: var(--preto);
+    background-color: var(--cinza);
+    line-height: 1.6;
+}
+/* Header */
+header {
+    background-color: var(--azul-principal);
+    color: var(--branco);
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    box-shadow: 0 2px 4px var(--sombra);
+}
+
+header .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+header .logo img {
+    height: 40px;
+}
+
+header .logo span {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Navegação */
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+}
+
+nav a {
+    color: var(--branco);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: var(--azul-claro);
+}
+
+
+h2 {
+  text-align: center;
+}
+
+/* Mensagens de sucesso e erro */
+.mensagem, .erro {
+  max-width: 700px;
+  margin: 0 auto 20px auto;
+  padding: 12px 20px;
+  border-radius: 5px;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.mensagem {
+  background-color: #00C853;
+  color: white;
+}
+
+.erro {
+  background-color: #D50000;
+  color: white;
+}
+
+/* Formulário */
+form {
+  background-color: #fff;
+  max-width: 700px;
+  margin: 0 auto 40px auto;
+  padding: 25px 30px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+form:hover, form:focus-within {
+  box-shadow: 0 8px 20px rgba(21, 101, 192, 0.3);
+}
+
+form h2 {
+  margin-bottom: 20px;
+  font-size: 1.6rem;
+  color: #1565C0;
+  font-weight: 700;
+}
+
+/* Labels */
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #1565C0;
+}
+
+/* Inputs, selects e textarea */
+input[type="date"],
+select,
+textarea {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 15px;
+  border: 1.8px solid #CCC;
+  border-radius: 6px;
+  transition: border-color 0.3s ease;
+  font-family: inherit;
+  color: #424242;
+}
+
+input[type="date"]:focus,
+select:focus,
+textarea:focus {
+  border-color: #1565C0;
+  outline: none;
+  box-shadow: 0 0 8px rgba(21, 101, 192, 0.4);
+}
+
+/* Textarea específico */
+textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Botão */
+button {
+  display: inline-block;
+  background-color: #1565C0;
+  color: white;
+  padding: 14px 30px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  user-select: none;
+}
+
+button:hover,
+button:focus {
+  background-color: #0D47A1;
+  box-shadow: 0 4px 15px rgba(13, 71, 161, 0.6);
+  outline: none;
+}
+
+/* Tabela */
+table {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto 60px auto;
+  border-collapse: collapse;
+  font-size: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: white;
+}
+
+thead tr {
+  background-color: #1565C0;
+  color: white;
+  font-weight: 700;
+}
+
+th, td {
+  padding: 14px 20px;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+  vertical-align: middle;
+}
+
+tbody tr:hover {
+  background-color: #f1f8ff;
+}
+
+tr:nth-child(even) {
+  background-color: #FAFAFA;
+}
+
+.tipo {
+  font-weight: 700;
+  color: #1565C0;
+}
+
+/* Mensagem tabela vazia */
+tbody tr td {
+  text-align: center;
+  color: #D50000;
+  font-weight: 600;
+  padding: 30px 10px;
+}
+
+/* Responsividade */
+/* Responsividade */
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .features {
+        padding: 40px 20px;
+    }
+
+    .card {
+        width: 90%;
+    }
+}
+

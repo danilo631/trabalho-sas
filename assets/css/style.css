@@ -1,0 +1,226 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Tipografia e cores principais */
+:root {
+    --azul-principal: #004080;
+    --azul-secundario: #0074D9;
+    --azul-claro: #E6F2FF;
+    --cinza: #f4f4f4;
+    --branco: #ffffff;
+    --preto: #222;
+    --borda: #dcdcdc;
+    --sombra: rgba(0, 0, 0, 0.1);
+    --fonte: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    font-family: var(--fonte);
+    color: var(--preto);
+    background-color: var(--cinza);
+    line-height: 1.6;
+}
+
+/* Header */
+header {
+    background-color: var(--azul-principal);
+    color: var(--branco);
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    box-shadow: 0 2px 4px var(--sombra);
+}
+
+header .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+header .logo img {
+    height: 40px;
+}
+
+header .logo span {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Navegação */
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+}
+
+nav a {
+    color: var(--branco);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: var(--azul-claro);
+}
+
+/* Seção de boas-vindas */
+.welcome {
+    padding: 60px 20px;
+    text-align: center;
+    background-color: var(--azul-claro);
+}
+
+.welcome h1 {
+    font-size: 2.5rem;
+    color: var(--azul-principal);
+    margin-bottom: 20px;
+}
+
+.welcome p {
+    font-size: 1.2rem;
+    color: #333;
+}
+
+/* Seção de funcionalidades */
+.features {
+    padding: 60px 40px;
+    background-color: var(--branco);
+    text-align: center;
+}
+
+.features h2 {
+    color: var(--azul-principal);
+    font-size: 2rem;
+    margin-bottom: 40px;
+}
+
+/* Container flexível para os cards */
+.features-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Card individual */
+.card {
+    background-color: var(--cinza);
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+    padding: 20px;
+    width: 280px;
+    box-shadow: 0 2px 8px var(--sombra);
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card h3 {
+    color: var(--azul-secundario);
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.card p {
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+}
+
+.card a {
+    align-self: flex-start;
+    padding: 10px 15px;
+    background-color: var(--azul-principal);
+    color: var(--branco);
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.card a:hover {
+    background-color: var(--azul-secundario);
+}
+
+
+/* Seção de contato */
+.contact {
+    background-color: var(--azul-claro);
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.contact h2 {
+    color: var(--azul-principal);
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.contact form {
+    max-width: 500px;
+    margin: auto;
+    text-align: left;
+}
+
+.contact label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.contact input[type="text"],
+.contact input[type="email"],
+.contact textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid var(--borda);
+    border-radius: 4px;
+}
+
+.contact input[type="submit"] {
+    background-color: var(--azul-principal);
+    color: var(--branco);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.contact input[type="submit"]:hover {
+    background-color: var(--azul-secundario);
+}
+
+/* Rodapé */
+footer {
+    background-color: var(--azul-principal);
+    color: var(--branco);
+    text-align: center;
+    padding: 20px;
+    font-size: 0.9rem;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .features {
+        padding: 40px 20px;
+    }
+
+    .card {
+        width: 90%;
+    }
+}
+
