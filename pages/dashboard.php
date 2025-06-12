@@ -1,13 +1,9 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['user_id'])) {
-    header('Location: ../login.php');
-    exit;
-}
-
-echo "<h1>Bem-vindo, {$_SESSION['username']}</h1>";
-echo "<p>Setor: {$_SESSION['setor']}</p>";
+// Obtendo os dados da sessão
+$username = $_SESSION['username'];
+$setor = $_SESSION['setor'];
 ?>
 
 

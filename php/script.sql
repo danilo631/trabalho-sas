@@ -13,45 +13,30 @@ CREATE TABLE IF NOT EXISTS funcionarios (
     cargo VARCHAR(255),
     salario DECIMAL(10, 2),
     data_admissao DATE,
-    afastamento BOOLEAN DEFAULT 0,
+    afastamento TINYINT(1) DEFAULT 0,
     setor VARCHAR(100),
     email VARCHAR(255) UNIQUE,
     telefone VARCHAR(15),
-    ferias BOOLEAN DEFAULT 0
+    ferias TINYINT(1) DEFAULT 0
 );
 
+-- 3. Criar a tabela usuarios
 CREATE TABLE IF NOT EXISTS usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,                                            
     username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    setor VARCHAR(100) AFTER role,
+    setor VARCHAR(100) NOT NULL,
     role VARCHAR(20) NOT NULL DEFAULT 'user',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Inserir usuários (com roles corretas)
+INSERT INTO usuarios (username, password, setor, role) VALUES
+('RH', '123', 'RH', 'user'),
+('admin', '123', 'administrativo', 'user'),
+('auditor', '123', 'Auditoria', 'user');
 
-INSERT INTO usuarios (username, password, setor, role) VALUES (
-    'admin',
-    'admin',
-    'RH',
-    'admin'
-);
-
-INSERT INTO usuarios (username, password, setor, role) VALUES (
-    'zezao',
-    '123',
-    'administrativo',
-    '123'
-);
-
-INSERT INTO usuarios (username, password, setor, role) VALUES (
-    'maria',
-    '123',
-    'Auditoria',
-    '123'
-);
-
--- 3. Criar a tabela folha_pagamento
+-- 4. Criar a tabela folha_pagamento
 CREATE TABLE IF NOT EXISTS folha_pagamento (
     id INT AUTO_INCREMENT PRIMARY KEY,
     funcionario_id INT NOT NULL,
@@ -64,7 +49,7 @@ CREATE TABLE IF NOT EXISTS folha_pagamento (
     FOREIGN KEY (funcionario_id) REFERENCES funcionarios(id)
 );
 
--- 4. Criar a tabela afastamentos
+-- 5. Criar a tabela afastamentos
 CREATE TABLE IF NOT EXISTS afastamentos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     funcionario_id INT NOT NULL,
@@ -75,7 +60,7 @@ CREATE TABLE IF NOT EXISTS afastamentos (
     FOREIGN KEY (funcionario_id) REFERENCES funcionarios(id)
 );
 
--- 5. Criar a tabela ferias
+-- 6. Criar a tabela ferias
 CREATE TABLE IF NOT EXISTS ferias (
     id INT AUTO_INCREMENT PRIMARY KEY,
     funcionario_id INT NOT NULL,
@@ -84,7 +69,7 @@ CREATE TABLE IF NOT EXISTS ferias (
     FOREIGN KEY (funcionario_id) REFERENCES funcionarios(id) ON DELETE CASCADE
 );
 
--- 6. Criar gatilho após INSERT em ferias
+-- 7. Criar gatilho após INSERT em ferias
 DELIMITER $$
 
 CREATE TRIGGER after_insert_ferias
@@ -93,14 +78,14 @@ FOR EACH ROW
 BEGIN
     IF CURDATE() BETWEEN NEW.data_inicio AND NEW.data_fim THEN
         UPDATE funcionarios
-        SET ferias = TRUE
+        SET ferias = 1
         WHERE id = NEW.funcionario_id;
     END IF;
 END$$
 
 DELIMITER ;
 
--- 7. Criar gatilho após DELETE em ferias
+-- 8. Criar gatilho após DELETE em ferias
 DELIMITER $$
 
 CREATE TRIGGER after_delete_ferias
@@ -113,14 +98,14 @@ BEGIN
           AND CURDATE() BETWEEN data_inicio AND data_fim
     ) THEN
         UPDATE funcionarios
-        SET ferias = FALSE
+        SET ferias = 0
         WHERE id = OLD.funcionario_id;
     END IF;
 END$$
 
 DELIMITER ;
 
--- 8. Criar gatilho após UPDATE em ferias
+-- 9. Criar gatilho após UPDATE em ferias
 DELIMITER $$
 
 CREATE TRIGGER after_update_ferias
@@ -129,7 +114,7 @@ FOR EACH ROW
 BEGIN
     IF CURDATE() BETWEEN NEW.data_inicio AND NEW.data_fim THEN
         UPDATE funcionarios
-        SET ferias = TRUE
+        SET ferias = 1
         WHERE id = NEW.funcionario_id;
     ELSE
         IF NOT EXISTS (
@@ -138,7 +123,7 @@ BEGIN
               AND CURDATE() BETWEEN data_inicio AND data_fim
         ) THEN
             UPDATE funcionarios
-            SET ferias = FALSE
+            SET ferias = 0
             WHERE id = NEW.funcionario_id;
         END IF;
     END IF;
@@ -146,13 +131,12 @@ END$$
 
 DELIMITER ;
 
--- 9. Consulta exemplo: contar funcionários em férias
--- (executar separadamente quando quiser ver o resultado)
+-- 10. Consulta exemplo para contar funcionários em férias
 -- SELECT COUNT(*) AS funcionarios_em_ferias
 -- FROM funcionarios
--- WHERE ferias = TRUE;
+-- WHERE ferias = 1;
 
--- ou (mais preciso, sem depender do campo `ferias`)
+-- ou consulta mais precisa sem depender do campo `ferias`
 -- SELECT COUNT(DISTINCT funcionario_id) AS funcionarios_em_ferias
 -- FROM ferias
 -- WHERE CURDATE() BETWEEN data_inicio AND data_fim;

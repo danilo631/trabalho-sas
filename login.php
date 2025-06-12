@@ -1,83 +1,121 @@
 <?php
 session_start();
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $usuario = $_POST["usuario"];
-    $senha = $_POST["senha"];
 
-    $usuarios = [
-        "rh" => ["senha" => "123", "perfil" => "RH"],
-        "admin" => ["senha" => "admin", "perfil" => "Admin"],
-        "auditor" => ["senha" => "audit", "perfil" => "Auditor"]
-    ];
+// Conexão com o banco de dados
+$host = "localhost";
+$db = "rh_corporativo";
+$user = "root";
+$pass = "";
 
-    if (isset($usuarios[$usuario]) && $usuarios[$usuario]["senha"] == $senha) {
-        $_SESSION["usuario"] = $usuario;
-        $_SESSION["perfil"] = $usuarios[$usuario]["perfil"];
-        header("Location: dashboard.php");
-        exit;
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $pass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Erro na conexão: " . $e->getMessage());
+}
+
+$erro = "";
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $usuario = trim($_POST["usuario"]);
+    $senha = trim($_POST["senha"]);
+
+    $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE username = :usuario LIMIT 1");
+    $stmt->bindParam(":usuario", $usuario, PDO::PARAM_STR);
+    $stmt->execute();
+
+    if ($stmt->rowCount() === 1) {
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Se usar password_hash no cadastro, utilize password_verify
+        if ($user["password"] === $senha || password_verify($senha, $user["password"])) {
+            // Corrigido: usando "username" e "setor" para bater com index.php
+            $_SESSION["username"] = $user["username"];
+            $_SESSION["setor"] = $user["setor"];
+            $_SESSION["perfil"] = $user["role"]; // opcional
+            header("Location: index.php");
+            exit;
+        } else {
+            $erro = "Senha incorreta.";
+        }
     } else {
-        echo "Usuário ou senha inválidos!";
+        $erro = "Usuário não encontrado.";
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8" />
     <title>Login - RH Corporativo</title>
     <style>
-        body { font-family: Arial, sans-serif; background: #f0f0f0; }
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+        }
         .login-container {
             max-width: 400px;
             margin: 80px auto;
             background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px #ccc;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
         }
         .error {
             color: red;
-            margin-bottom: 10px;
-            padding: 8px;
             background-color: #ffe0e0;
             border: 1px solid red;
-            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 6px;
         }
-        label { font-weight: bold; }
-        input, select {
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+        input {
             width: 100%;
             padding: 10px;
-            margin: 6px 0 12px;
+            margin-top: 6px;
+            margin-bottom: 15px;
+            border-radius: 5px;
             border: 1px solid #ccc;
-            border-radius: 4px;
         }
         button {
+            width: 100%;
             background-color: #007bff;
             color: white;
-            padding: 10px;
-            width: 100%;
+            padding: 12px;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
+            font-size: 16px;
         }
-        button:hover { background-color: #0056b3; }
+        button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
 <div class="login-container">
     <h2>Login RH Corporativo</h2>
-    
+
     <?php if (!empty($erro)): ?>
-    <div class="error"><?= htmlspecialchars($erro) ?></div>
-<?php endif; ?>
+        <div class="error"><?= htmlspecialchars($erro) ?></div>
+    <?php endif; ?>
 
     <form method="post" action="">
-        <label for="username">Usuário</label>
-        <input type="text" id="username" name="usuario" value="<?= htmlspecialchars($username ?? '') ?>" required autofocus />
+        <label for="usuario">Usuário</label>
+        <input type="text" id="usuario" name="usuario" required autofocus />
 
-        <label for="password">Senha</label>
-        <input type="password" id="password" name="senha" required />
-
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" name="senha" required />
 
         <button type="submit">Entrar</button>
     </form>
